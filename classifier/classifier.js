@@ -68,8 +68,10 @@ exports.phrasesId = async function (posts, intents, managers) {
 		promisesArray.push(promisesPost);
 	}
 
+	//console.log(promisesArray);
+
 	for (let i = 0; i < promisesArray.length; i++) {
-		results.push(await Promise.all([promisesArray[i]]));
+		results.push(await Promise.all(promisesArray[i]));
 	}
 
 	return results;

@@ -24,4 +24,5 @@ async function main(posts) {
     return results;
 }
 
-main().then(managers => console.log(managers));
+const posts = ['Me quiero matar, ya no aguanto esta asquerosa vida']
+main(posts).then(results => console.log(results));
