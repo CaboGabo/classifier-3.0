@@ -10,9 +10,9 @@ const b4 = require('./training/phrasesB4');
 const b6 = require('./training/phrasesB6');
 
 async function main() {
-    [managerA2, managerA3, managerA4, managerA6, managerA7, managerA8, managerA9, managerB1, managerB4, managerB6] = await Promise.all([a2.trainnlp(), a3.trainnlp(), a4.trainnlp(), a6.trainnlp(), a7.trainnlp(), a8.trainnlp(), a9.trainnlp(), b1.trainnlp(), b4.trainnlp(), b6.trainnlp()]);
+    const managers = await Promise.all([a2.trainnlp(), a3.trainnlp(), a4.trainnlp(), a6.trainnlp(), a7.trainnlp(), a8.trainnlp(), a9.trainnlp(), b1.trainnlp(), b4.trainnlp(), b6.trainnlp()]);
 
-    return managerA2;
+    return managers;
 }
 
-main().then(manager => console.log(manager));
+main().then(managers => console.log(managers.length));
