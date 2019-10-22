@@ -74,58 +74,64 @@ exports.phrasesId = async function (posts, intents, managers) {
 		results.push(await Promise.all(promisesArray[i]));
 	}
 
-	return results;
 
-	/*for (let i = 0; i < sentences.length; i++) {
-		//Si las frases son muy largas, se separan por otros delimitadores (por ahora la ',')
-		if (sentences[i].length > 60) {
-			let sentenceChunks = splitMulti(sentences[i], tokensDel);
-			for (let j = 0; j < sentenceChunks.length; j++) {
-				promisesArray.push(manager.process('es', sentenceChunks[j]));
+	/*
+	let criteriaResults = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+	for (let i = 0; i < results.length; i++) {
+		for (let j = 0; j < results[i].length; j++) {
+			const element = results[i][j];
+			console.log(element.score);
+			console.log(intents[i])
+			console.log(element.intent);
+			if (element.intent === intents[i] && element.score > 0.50) {
+				console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
+				if (element.score >= intentMinScore) {
+					criteriaResults[i]++;
+				}
 			}
-		} else {
-			promisesArray.push(manager.process('es', sentences[i]));
 		}
 	}*/
 
-	//console.log(promisesArray);
-	/*let responses = await Promise.all(promisesArray);
-	responses.forEach(element => {
-		//console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
-		if (element.intent === intent && element.score > 0.70) {
-			console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
-			//Si el intent tiene score por encima de 0.98 (o el definido para cada criterio) automaticamente se suma la ocurrencia
-			if (element.score >= intentMinScore) {
-				ocurrences++;
-				return;
-			}
-			//Sacamos los stemms del utterance
-			let utter = lorca(element.utterance);
-			let stemmsUtterance = utter.words().stem().get();
-			let count = 0;
-			for (let i = 0; i < stemmsUtterance.length; i++) {
-				for (let j = 0; j < stemmsKeywords.length; j++) {
 
-					let levDistance = levenshteinDistance(stemmsUtterance[i], stemmsKeywords[j]);
-					let totalLength = stemmsUtterance[i].length + stemmsKeywords[j].length;
-					let simPercentage = levDistance * 100 / totalLength;
-					if ((levDistance <= 2) && (simPercentage < 20) &&
-						(stemmsUtterance[i].substring(0, 2) === stemmsKeywords[j].substring(0, 2)) &&
-						!keywordEx.includes(stemmsUtterance[i])
-					) {
-						//console.log(stemmsUtterance[i] + "/" + stemmsKeywords[j]);
-						//console.log(simPercentage + "%");
-						//console.log("Levenshtein: " + levenshteinDistance(stemmsUtterance[i], stemmsKeywords[j]));
-						if ((levDistance < 2 && simPercentage < 15)) {
-							console.log(stemmsUtterance[i] + "/" + stemmsKeywords[j] + "/" + element.score);
-							//console.log("Keywords Stemms" + stemmsKeywords);
-							ocurrences++;
-							return;
+	return results;
+	/*
+		responses.forEach(element => {
+			//console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
+			if (element.intent === intent && element.score > 0.70) {
+				console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
+				//Si el intent tiene score por encima de 0.98 (o el definido para cada criterio) automaticamente se suma la ocurrencia
+				if (element.score >= intentMinScore) {
+					ocurrences++;
+					return;
+				}
+				//Sacamos los stemms del utterance
+				let utter = lorca(element.utterance);
+				let stemmsUtterance = utter.words().stem().get();
+				let count = 0;
+				for (let i = 0; i < stemmsUtterance.length; i++) {
+					for (let j = 0; j < stemmsKeywords.length; j++) {
+
+						let levDistance = levenshteinDistance(stemmsUtterance[i], stemmsKeywords[j]);
+						let totalLength = stemmsUtterance[i].length + stemmsKeywords[j].length;
+						let simPercentage = levDistance * 100 / totalLength;
+						if ((levDistance <= 2) && (simPercentage < 20) &&
+							(stemmsUtterance[i].substring(0, 2) === stemmsKeywords[j].substring(0, 2)) &&
+							!keywordEx.includes(stemmsUtterance[i])
+						) {
+							//console.log(stemmsUtterance[i] + "/" + stemmsKeywords[j]);
+							//console.log(simPercentage + "%");
+							//console.log("Levenshtein: " + levenshteinDistance(stemmsUtterance[i], stemmsKeywords[j]));
+							if ((levDistance < 2 && simPercentage < 15)) {
+								console.log(stemmsUtterance[i] + "/" + stemmsKeywords[j] + "/" + element.score);
+								//console.log("Keywords Stemms" + stemmsKeywords);
+								ocurrences++;
+								return;
+							}
 						}
 					}
 				}
 			}
-		}
-	});
-	return ocurrences;*/
+		});
+		return ocurrences;*/
 }
