@@ -1,4 +1,5 @@
 //Identificador de disminución de la capacidad para pensar o concentrarse o indecisión
+const fs = require('fs');
 
 const {
 	NlpManager
@@ -9,7 +10,7 @@ const manager = new NlpManager({
 
 let modelTag = './modelA8.nlp';
 
-async function trainnlp(manager) {
+async function trainnlp() {
 	if (fs.existsSync(modelTag)) {
 		manager.load(modelTag);
 		return;
@@ -248,6 +249,10 @@ async function trainnlp(manager) {
 	console.log('Trained!');
 
 	//Guardamos el modelo
-
 	//manager.save(modelTag, true);
+	return manager;
+}
+
+module.exports = {
+	trainnlp
 }

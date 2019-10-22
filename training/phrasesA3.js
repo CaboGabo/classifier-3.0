@@ -1,4 +1,6 @@
 //Identificador de pérdida de peso
+const fs = require('fs');
+
 const {
 	NlpManager
 } = require('node-nlp');
@@ -8,7 +10,7 @@ const manager = new NlpManager({
 
 let modelTag = './modelA3.nlp';
 
-async function trainnlp(manager) {
+async function trainnlp() {
 	if (fs.existsSync(modelTag)) {
 		manager.load(modelTag);
 		return;
@@ -264,8 +266,12 @@ async function trainnlp(manager) {
 	console.log('Training...');
 	await manager.train();
 	console.log('Trained!');
-
 	//Guardamos el modelo
 
 	//manager.save(modelTag, true);
+	return manager;
+}
+
+module.exports = {
+	trainnlp
 }

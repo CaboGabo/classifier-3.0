@@ -134,8 +134,8 @@ async function trainnlp() {
 	console.log('Trained!');
 
 	//Guardamos el modelo
-	return manager;
 	//manager.save(modelTag, true);
+	return manager;
 }
 
 module.exports = {
