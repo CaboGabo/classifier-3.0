@@ -72,6 +72,8 @@ exports.phrasesId = async function (posts, intents, managers) {
 		results.push(await Promise.all([promisesArray[i]]));
 	}
 
+	return results;
+
 	/*for (let i = 0; i < sentences.length; i++) {
 		//Si las frases son muy largas, se separan por otros delimitadores (por ahora la ',')
 		if (sentences[i].length > 60) {
@@ -122,6 +124,6 @@ exports.phrasesId = async function (posts, intents, managers) {
 				}
 			}
 		}
-	});*/
-	return ocurrences;
+	});
+	return ocurrences;*/
 }
