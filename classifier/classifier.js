@@ -41,12 +41,38 @@ function splitMulti(str, tokens) {
 }
 
 //Obtener si alguna oración tiene relación con alguna de las frases prestablecidas
-exports.phrasesId = async function (post, intent, manager) {
+exports.phrasesId = async function (posts, intents, managers) {
 	let promisesArray = [];
-	let sentences = splitMulti(post, '.');
+
+	let results = [];
 	// Entrenamos y salvamos el modelo.
 	//Enviamos post oración por oración a verificar
-	for (let i = 0; i < sentences.length; i++) {
+
+	for (const post of posts) {
+		let promisesPost = [];
+		let sentences = splitMulti(post, '.');
+		for (let i = 0; i < sentences.length; i++) {
+			let sentenceChunks = [];
+			if (sentences[i].length > 60) {
+				sentenceChunks = [...splitMulti(sentences[i], tokensDel)];
+			} else {
+				sentenceChunks = [sentences[i]];
+			}
+
+			for (let j = 0; j < sentenceChunks.length; j++) {
+				for (let k = 0; k < managers.length; k++) {
+					promisesPost.push(managers[k].process('es', sentenceChunks[j]));
+				}
+			}
+		}
+		promisesArray.push(promisesPost);
+	}
+
+	for (let i = 0; i < promisesArray.length; i++) {
+		results.push(await Promise.all([promisesArray[i]]));
+	}
+
+	/*for (let i = 0; i < sentences.length; i++) {
 		//Si las frases son muy largas, se separan por otros delimitadores (por ahora la ',')
 		if (sentences[i].length > 60) {
 			let sentenceChunks = splitMulti(sentences[i], tokensDel);
@@ -56,16 +82,16 @@ exports.phrasesId = async function (post, intent, manager) {
 		} else {
 			promisesArray.push(manager.process('es', sentences[i]));
 		}
-	}
+	}*/
 
 	//console.log(promisesArray);
-	let responses = await Promise.all(promisesArray);
+	/*let responses = await Promise.all(promisesArray);
 	responses.forEach(element => {
 		//console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
 		if (element.intent === intent && element.score > 0.70) {
 			console.log("Utterance: " + element.utterance + " Intent: " + element.intent + " Score: " + element.score);
 			//Si el intent tiene score por encima de 0.98 (o el definido para cada criterio) automaticamente se suma la ocurrencia
-			if(element.score >= intentMinScore){
+			if (element.score >= intentMinScore) {
 				ocurrences++;
 				return;
 			}
@@ -80,13 +106,13 @@ exports.phrasesId = async function (post, intent, manager) {
 					let totalLength = stemmsUtterance[i].length + stemmsKeywords[j].length;
 					let simPercentage = levDistance * 100 / totalLength;
 					if ((levDistance <= 2) && (simPercentage < 20) &&
-						(stemmsUtterance[i].substring(0, 2) === stemmsKeywords[j].substring(0, 2))
-						&& !keywordEx.includes(stemmsUtterance[i])
+						(stemmsUtterance[i].substring(0, 2) === stemmsKeywords[j].substring(0, 2)) &&
+						!keywordEx.includes(stemmsUtterance[i])
 					) {
 						//console.log(stemmsUtterance[i] + "/" + stemmsKeywords[j]);
 						//console.log(simPercentage + "%");
 						//console.log("Levenshtein: " + levenshteinDistance(stemmsUtterance[i], stemmsKeywords[j]));
-						if((levDistance < 2 && simPercentage  < 15)){
+						if ((levDistance < 2 && simPercentage < 15)) {
 							console.log(stemmsUtterance[i] + "/" + stemmsKeywords[j] + "/" + element.score);
 							//console.log("Keywords Stemms" + stemmsKeywords);
 							ocurrences++;
@@ -96,6 +122,6 @@ exports.phrasesId = async function (post, intent, manager) {
 				}
 			}
 		}
-	});
+	});*/
 	return ocurrences;
 }
