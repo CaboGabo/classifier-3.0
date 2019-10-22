@@ -1,0 +1,15 @@
+{
+  "name": "nuevo-clasificador",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lorca-nlp": "^1.0.12",
+    "node-nlp": "^3.10.1"
+  }
+}
