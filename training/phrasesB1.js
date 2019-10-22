@@ -1,5 +1,5 @@
 //Malestar clínicamente significativo o deterioro en lo social, laboral u otras áreas importantes del funcionamiento.
-
+const fs = require('fs');
 //ESTE MODULO AUN NO LO PRUEBO
 const {
 	NlpManager
@@ -10,7 +10,7 @@ const manager = new NlpManager({
 
 let modelTag = './modelB1.nlp';
 
-async function trainnlp(manager) {
+async function trainnlp() {
 	if (fs.existsSync(modelTag)) {
 		manager.load(modelTag);
 		return;
@@ -134,6 +134,10 @@ async function trainnlp(manager) {
 	console.log('Trained!');
 
 	//Guardamos el modelo
-
+	return manager;
 	//manager.save(modelTag, true);
+}
+
+module.exports = {
+	trainnlp
 }
